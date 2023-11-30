@@ -1,5 +1,5 @@
-import { Question } from "../../App";
 import { useState, useEffect } from "react";
+import { Question } from "../pages/QuizPage";
 
 type Props = {
   handleSubmit: (
@@ -34,7 +34,7 @@ const QuestionForm = ({ handleSubmit, question }: Props) => {
   return (
     <>
       <div className=" p-4 bg-slate-300 rounded-md shadow-xl w-[400px]">
-        <h1 className="font-bold">{question.prompt}</h1>
+        <h1 className="font-bold">{question.question}</h1>
         <form
           onSubmit={(e) => handleSubmit(e, selectedAnswer)}
           className="flex flex-col"

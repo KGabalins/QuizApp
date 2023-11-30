@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Question } from "../../App";
 import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
 import { faXmark } from "@fortawesome/free-solid-svg-icons/faXmark";
+import { Question } from "../pages/QuizPage";
 
 type Props = {
   questions: Question[];
@@ -15,7 +15,7 @@ const ScoreBoard = ({ questions }: Props) => {
         return (
           <div key={index}>
             <p>
-              <span className="font-bold">{question.prompt}: </span>
+              <span className="font-bold">{question.question}: </span>
               <span
                 className={`${
                   question.guess === question.correctAnswer

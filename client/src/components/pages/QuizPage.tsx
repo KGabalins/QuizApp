@@ -1,37 +1,30 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import ScoreBoard from "../items/ScoreBoard";
 import QuestionForm from "../forms/QuestionForm";
+import axios from "axios";
 
 export type Question = {
-  prompt: string;
+  question: string;
   correctAnswer: string;
   answers: string[];
   guess: string | null;
 };
 
+export type Quiz = {
+  _id: string;
+  name: string;
+  rating: number;
+  type: string;
+  questions: Question[];
+};
+
 const QuizPage = () => {
+  // const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [questions, setQuestions] = useState<Question[]>([
-    {
-      prompt: "What color is the sky?",
-      correctAnswer: "Blue",
-      answers: ["Red", "Green", "Blue", "Yellow"],
-      guess: null,
-    },
-    {
-      prompt: "In which year did Counter Strike: Global Offensive release?",
-      correctAnswer: "2012",
-      answers: ["2013", "2014", "2012", "2010"],
-      guess: null,
-    },
-    {
-      prompt: "Capital of Latvia?",
-      correctAnswer: "Riga",
-      answers: ["Jelgava", "Riga", "Daugavpils", "Ozolnieki"],
-      guess: null,
-    },
-  ]);
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const { quizId } = useParams();
 
   const [currentQuestion, setCurrentQuestion] = useState<Question>(
     questions[0]
@@ -52,6 +45,18 @@ const QuizPage = () => {
   useEffect(() => {
     setCurrentQuestion(questions[currentQuestionIndex]);
   }, [currentQuestionIndex, questions]);
+
+  useEffect(() => {
+    axios
+      .get(`/api/v1/quiz/${quizId}`)
+      .then(({ data }) => {
+        const { quiz } = data;
+
+        // setQuiz(quiz);
+        setQuestions(quiz.questions);
+      })
+      .catch((err) => console.log(err));
+  }, [quizId]);
 
   return (
     <div className="flex justify-center items-center h-screen">
